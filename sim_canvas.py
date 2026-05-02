@@ -1,42 +1,53 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from massive_body import MassiveBody
+
+
 G = 1
-m1 = 1000.0
-m2 = 1.0
-mu = -G * m1 * m2
 
-m1_x = 0
-m1_y = 0
-m2_x = 10
-m2_y = 0
-m2_vx = 0
-m2_vy = 10
+body1 = MassiveBody(1000.0, (0, 0, 0), (0, 0, 0))
+body2 = MassiveBody(1.0, (10, 0, 0), (0, 10, 0))
 
-tspace = np.linspace(0, 1000, 1000)
+mu = -G * body1.mass * body2.mass
+
+tspace = np.linspace(0, 500, 500)
 rspace = []
+thetaspace = []
 
 for t in tspace:
-    dx = m2_x - m1_x
-    dy = m2_y - m1_y
+    dx = body2.x - body1.x
+    dy = body2.y - body1.y
     dr = np.sqrt(dx**2 + dy**2)
     rspace.append(dr)
     force = mu / dr**2
 
     theta = np.atan2(dy, dx)
+    thetaspace.append(theta)
     fx = np.cos(theta) * force
     fy = np.sin(theta) * force
-    ax = fx / m2
-    ay = fy / m2
+    fvec = (fx, fy, 0)
 
     dt = t / 1000.0
 
-    m2_vx += ax * dt
-    m2_vy += ay * dt
-    m2_x += m2_vx * dt
-    m2_y += m2_vy * dt
+    # update the orbiter's parameters
+    body2.update(dt, fvec)
 
-plt.plot(tspace, rspace)
-plt.xlabel(r"$t$")
-plt.ylabel(r"$r$")
+
+fig = plt.figure()
+
+ax1 = fig.add_subplot(1, 2, 1)
+ax1.plot(tspace, rspace)
+ax1.set_title("Cartesian")
+ax1.set_xlabel(r"$t$")
+ax1.set_ylabel(r"$r$")
+
+ax2 = fig.add_subplot(1, 2, 2, projection='polar')
+ax2.plot(thetaspace, rspace)
+ax2.set_title("Polar")
+ax2.set_xlabel(r"$\theta$")
+ax2.set_ylabel(r"$r$")
+
+plt.tight_layout()
+
 plt.show()
