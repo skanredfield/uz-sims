@@ -15,8 +15,14 @@ class BodySystem:
 
     def evolve_to_time(self, frames):
         tspace = np.linspace(0, frames, frames)
-        rspace = np.empty(frames)
-        thetaspace = np.empty(frames)
+        rspace = {}
+        thetaspace = {}
+        odist = {}
+
+        for body in self.bodies:
+            rspace[body.id] = np.empty(frames)
+            thetaspace[body.id] = np.empty(frames)
+            odist[body.id] = np.empty(frames)
 
         for i, t in enumerate(tspace):
             for j, body1 in enumerate(self.bodies):
@@ -29,11 +35,13 @@ class BodySystem:
                     dx = body2.x - body1.x
                     dy = body2.y - body1.y
                     dr = np.sqrt(dx**2 + dy**2)
-                    rspace[i] = dr
+                    rspace[body1.id][i] = dr
                     force = mu / dr**2
 
+                    odist[body1.id][i] = np.sqrt(body1.x**2 + body1.x**2)
+
                     theta = np.atan2(dy, dx)
-                    thetaspace[i] = theta
+                    thetaspace[body1.id][i] = theta
                     fx = np.cos(theta) * force
                     fy = np.sin(theta) * force
                     fvec = (fx, fy, 0)
@@ -45,4 +53,4 @@ class BodySystem:
                     body2.update(dt, fvec)
                     body1.update(dt, neg_fvec)
 
-        return (tspace, rspace, thetaspace)
+        return (tspace, rspace, thetaspace, odist)

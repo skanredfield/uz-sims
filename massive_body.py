@@ -1,6 +1,8 @@
 class MassiveBody:
 
-    def __init__(self, mass, position: tuple, velocity: tuple):
+    def __init__(self, id, mass, position: tuple, velocity: tuple):
+
+        self.id = id
         
         self.mass = mass
         self.position = position

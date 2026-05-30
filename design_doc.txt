@@ -1,4 +1,6 @@
 1. Treat interconnected systems of massive objects, which are subjected to gravity.
 2. The system class has massive bodies, which it updates.
 3. A rocket is a subclass of a massive body, which can accelerate via propulsion for an amount of time.
-4. Implement Newton, Verlet, Runge-Kutta integration
+4. Implement Newton, Verlet, Runge-Kutta integration.
+5. Use interactive 3D plotting with an option to view the orbit from the reference frame of different participating bodies.
+6. Need random walks and simulations aside from the integrators.
