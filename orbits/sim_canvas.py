@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-from body_system import BodySystem
-from massive_body import MassiveBody
+from orbits.body_system import BodySystem
+from orbits.massive_body import MassiveBody
 
 
 G = 1
