@@ -2,10 +2,11 @@ import random
 import functools
 
 
-class RandomWalker:
+class CRandomWalker:
 
-    def __init__(self, seed, start_pos):
+    def __init__(self, start_pos, name = None, seed = None):
         self.rand = random.Random(seed)
+        self.name = name
         self.step_callback = None
 
         # initialize the position dictionary for any number of dimensions, 
