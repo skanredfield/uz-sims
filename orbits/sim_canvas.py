@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-from orbits.body_system import BodySystem
-from orbits.massive_body import MassiveBody
+from body_system import BodySystem
+from massive_body import MassiveBody
 
 
 G = 1
@@ -18,8 +18,7 @@ system.add_body(body2)
 # system.add_body(body3)
 
 id = body2.id
-tspace, rspace, thetaspace, odist = system.evolve_to_time(10)
-print(rspace)
+tspace, rspace, thetaspace, odist = system.evolve_to_time(300)
 
 fig = plt.figure()
 
