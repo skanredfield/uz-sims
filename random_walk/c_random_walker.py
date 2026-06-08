@@ -1,4 +1,5 @@
 from base_walker import *
+from typing import override
 
 
 class CRandomWalker(BaseWalker):
@@ -9,7 +10,7 @@ class CRandomWalker(BaseWalker):
     def __init__(self, start_pos, name = None, seed = None, walk_type = WalkType.RAND_AXIS):
         super().__init__(start_pos, name, seed, walk_type)
 
-
+    @override
     def walk(self):
         """
         Performs a step by advancing a unit-length distance in a chosen direction.
