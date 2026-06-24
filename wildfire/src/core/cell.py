@@ -15,5 +15,5 @@ class Cell:
     def __init__(self, type: CellType):
         self.type = type
 
-    def set_type(self, type: CellType):
-        self.type = type
+    def set_type(self, type: CellType | int):
+        self.type = CellType(type)
