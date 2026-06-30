@@ -68,16 +68,17 @@ def _create_console_grid(list2d: list[list[int]]):
     return grid
 
 def render_grid(list2d: list[list[int]]):
-    rows, cols = 10, 10
-    current_map = [[random.randint(1, 7) for _ in range(cols)] for _ in range(rows)]
-
-    with Live(_create_console_grid(current_map), refresh_per_second=4) as live:
-        for _ in range(20): # Run for 20 frames
-            time.sleep(0.25)
+    # rows, cols = 10, 10
+    # current_map = [[random.randint(1, 7) for _ in range(cols)] for _ in range(rows)]
+    with Live(_create_console_grid(list2d), auto_refresh=True):
+        pass
+    # with Live(_create_console_grid(list2d), refresh_per_second=4) as live:
+    #     for _ in range(20): # Run for 20 frames
+    #         time.sleep(0.25)
             
             # Simulate a world change or player movement
-            current_map = [[random.randint(1, 7) for _ in range(cols)] for _ in range(rows)]
+            # current_map = [[random.randint(1, 7) for _ in range(cols)] for _ in range(rows)]
             
             # Update the existing live canvas display smoothly
-            live.update(_create_console_grid(current_map))
+            # live.update(_create_console_grid(list2d))
 
