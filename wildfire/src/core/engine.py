@@ -2,11 +2,12 @@ from grid import Grid
 from grid_generator import GridGenerator
 from cell import CellType
 from rules import burn, propagate, update_state
+from appstate import AppState
 
 import time
 
 
-TIMESTEP = 0.001
+TIMESTEP = 0.00005
 PROPAGATION_DELAY = 1.0
 
 def init_grid() -> Grid:
@@ -24,13 +25,16 @@ def init_grid() -> Grid:
 
     return grid
 
-def logic_loop(grid: Grid, callback):
-    while(grid.num_unburnt_cells > 0):
-        for cell in grid._cells:
-            if cell.dryness01 <= 0:
-                continue
-            callback(grid.tolist2d())
-            burn(cell, grid, TIMESTEP)
-            update_state(cell, grid)
-            time.sleep(PROPAGATION_DELAY)
-            propagate(cell, grid, TIMESTEP)
+def logic_loop(grid: Grid, appstate: AppState):
+    # if grid.num_burning_cells > 0:
+    for cell in grid._cells:
+        if cell.dryness01 <= 0:
+            continue
+        propagate(cell, grid, TIMESTEP)
+        burn(cell, grid, TIMESTEP)
+        update_state(cell, grid)
+        # time.sleep(0.001)
+
+        appstate.mark_update_available()
+    # else:
+    #     appstate.mark_simulation_finished()

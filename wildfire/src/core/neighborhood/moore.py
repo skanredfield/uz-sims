@@ -1,10 +1,11 @@
 from typing import override
-from neighborhood import Neighborhood
 from grid import Grid
+from src.core.neighborhood.neighborhood import Neighborhood
 
 
 class MooreNeighborhood(Neighborhood):
 
+    @classmethod
     @override
     def get_neighborhood(cls, row: int, col: int, grid: Grid):
         neightbors = []

@@ -14,10 +14,10 @@ class CellType(Enum):
     
 class Cell:
 
-    def __init__(self, type: CellType, x: int, y: int, dryness01: float = 0.71, burn_modifier: float = 1.0):
+    def __init__(self, type: CellType, row: int, col: int, dryness01: float = 0.71, burn_modifier: float = 1.0):
         self.type = type
-        self.x = x
-        self.y = y
+        self.row = row
+        self.col = col
         self.dryness01 = dryness01
         self.initial_dryness01 = dryness01
         self.burn_duration = 5.0 * dryness01 * burn_modifier
@@ -28,9 +28,9 @@ class Cell:
         self.type = CellType(type)
 
     @staticmethod
-    def create_rock(x: int, y: int):
-        return Cell(CellType.ROCK, x, y, dryness=0.0)
+    def create_rock(row: int, col: int):
+        return Cell(CellType.ROCK, row, col, dryness=0.0)
     
     @staticmethod
-    def create_dry_grass(x: int, y: int):
-        return Cell(CellType.GRASS, x, y, dryness=1.0)
+    def create_dry_grass(row: int, col: int):
+        return Cell(CellType.GRASS, row, col, dryness=1.0)
