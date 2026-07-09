@@ -14,13 +14,13 @@ class CellType(Enum):
     
 class Cell:
 
-    def __init__(self, type: CellType, row: int, col: int, dryness01: float = 0.71, burn_modifier: float = 1.0):
+    def __init__(self, type: CellType, row: int, col: int, fuel01: float = 0.71, burn_modifier: float = 5.0):
         self.type = type
         self.row = row
         self.col = col
-        self.dryness01 = dryness01
-        self.initial_dryness01 = dryness01
-        self.burn_duration = 5.0 * dryness01 * burn_modifier
+        self.fuel01 = fuel01
+        self.initial_fuel01 = fuel01
+        self.burn_duration = fuel01 * burn_modifier
         self.burn_timer = self.burn_duration
         self.burn_progress01 = 0.0
 
@@ -29,8 +29,8 @@ class Cell:
 
     @staticmethod
     def create_rock(row: int, col: int):
-        return Cell(CellType.ROCK, row, col, dryness=0.0)
+        return Cell(CellType.ROCK, row, col, fuel01=0.0)
     
     @staticmethod
     def create_dry_grass(row: int, col: int):
-        return Cell(CellType.GRASS, row, col, dryness=1.0)
+        return Cell(CellType.GRASS, row, col, fuel01=1.0)

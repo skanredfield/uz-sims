@@ -5,18 +5,16 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "neighborhood"))
 from cell import Cell, CellType
 from grid import Grid
 from neighborhood.von_neumann import VonNeumannNeighborhood
-from neighborhood.moore import MooreNeighborhood
+# from neighborhood.moore import MooreNeighborhood
 
-
-COMBUSTION_DRYNESS_THRESHOLD = 0.7
 
 def burn(cell: Cell, grid: Grid, timestep: float):
-    if cell.burn_timer > 0 and cell.dryness01 > COMBUSTION_DRYNESS_THRESHOLD:
+    if cell.burn_timer > 0 and cell.fuel01 > 0:
         cell.burn_timer -= timestep
         cell.burn_progress01 = 1.0 - cell.burn_timer / cell.burn_duration
-        range_conversion_factor = (1.0 - cell.initial_dryness01) # / 1.0 (technically divided by the old range, which happens to be 1.0 - 0.0)
-        dryness_progress01 = cell.burn_progress01 * range_conversion_factor + cell.initial_dryness01
-        cell.dryness01 = cell.dryness01 + dryness_progress01
+
+        range_conversion_factor = (1.0 - cell.initial_fuel01) # / 1.0 (technically divided by the old range, which happens to be 1.0 - 0.0)
+        cell.fuel01 = cell.initial_fuel01 - cell.burn_progress01 * range_conversion_factor
 
         if cell.type != CellType.FIRE:
             cell.set_type(CellType.FIRE)

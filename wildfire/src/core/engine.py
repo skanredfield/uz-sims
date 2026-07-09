@@ -26,15 +26,11 @@ def init_grid() -> Grid:
     return grid
 
 def logic_loop(grid: Grid, appstate: AppState):
-    # if grid.num_burning_cells > 0:
     for cell in grid._cells:
-        if cell.dryness01 <= 0:
+        if cell.fuel01 <= 0:
             continue
         propagate(cell, grid, TIMESTEP)
         burn(cell, grid, TIMESTEP)
         update_state(cell, grid)
-        # time.sleep(0.001)
 
-        appstate.mark_update_available()
-    # else:
-    #     appstate.mark_simulation_finished()
+    appstate.mark_update_available()

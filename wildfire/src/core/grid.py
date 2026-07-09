@@ -19,9 +19,9 @@ class Grid:
     def set_cell_type(self, row: int, col: int, type: CellType | int):
         self._cells[col + self.num_cols * row].set_type(type)
         if type == CellType.FOREST:
-            self._cells[col + self.num_cols * row].dryness01 = 0.71
+            self._cells[col + self.num_cols * row].fuel01 = 0.71
         if type == CellType.FIRE:
-            self._cells[col + self.num_cols * row].dryness01 = 0.71
+            self._cells[col + self.num_cols * row].fuel01 = 0.71
             self.fire_origins.append(self._cells[col + self.num_cols * row])
             self.num_burning_cells += 1
     
@@ -36,7 +36,7 @@ class Grid:
             raise("Trying to exceed the grid size.")
         cell = Cell(type, row, col)
         if type == CellType.EMPTY:
-            cell.dryness01 = 0.0
+            cell.fuel01 = 0.0
         self._cells.append(cell)
         if type == CellType.FIRE:
             self.fire_origins.append(cell)
