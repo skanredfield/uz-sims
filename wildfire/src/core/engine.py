@@ -1,14 +1,9 @@
 from grid import Grid
 from grid_generator import GridGenerator
 from cell import CellType
-from rules import burn, propagate, update_state
+from rules import burn
 from appstate import AppState
 
-import time
-
-
-TIMESTEP = 0.00005
-PROPAGATION_DELAY = 1.0
 
 def init_grid() -> Grid:
     grid = GridGenerator.generate_empty(10, 10)
@@ -25,12 +20,19 @@ def init_grid() -> Grid:
 
     return grid
 
-def logic_loop(grid: Grid, appstate: AppState):
+def gather_updateable(grid: Grid):
     for cell in grid._cells:
-        if cell.fuel01 <= 0:
-            continue
-        propagate(cell, grid, TIMESTEP)
-        burn(cell, grid, TIMESTEP)
-        update_state(cell, grid)
+        if cell.fuel01 >= 0.0:
+            if cell.type == CellType.FIRE or cell.type == CellType.CINDER:
+                grid.enqueue_for_update(cell)
 
-    appstate.mark_update_available()
+def sim_advance_state(grid: Grid, appstate: AppState, dt: float) -> bool:
+    is_any_fuel_left = False
+    while not grid.are_updates_finished():
+        cell = grid.get_cell_for_update()
+        is_any_fuel_left = True
+        burn(cell, grid, dt)
+    
+    return is_any_fuel_left
+
+

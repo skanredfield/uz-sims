@@ -9,32 +9,30 @@ from neighborhood.von_neumann import VonNeumannNeighborhood
 
 
 def burn(cell: Cell, grid: Grid, timestep: float):
-    if cell.burn_timer > 0 and cell.fuel01 > 0:
-        cell.burn_timer -= timestep
-        cell.burn_progress01 = 1.0 - cell.burn_timer / cell.burn_duration
+    # print(f"Cell ({cell.row}, {cell.col}) has {cell.fuel01} fuel left and {cell.burn_progress01} burn progress")
 
-        range_conversion_factor = (1.0 - cell.initial_fuel01) # / 1.0 (technically divided by the old range, which happens to be 1.0 - 0.0)
-        cell.fuel01 = cell.initial_fuel01 - cell.burn_progress01 * range_conversion_factor
-
-        if cell.type != CellType.FIRE:
-            cell.set_type(CellType.FIRE)
-            grid.num_burning_cells += 1
-
-
-def propagate(cell: Cell, grid: Grid, timestep: float):
-    if cell.type == CellType.FIRE:
-        neighbors = VonNeumannNeighborhood.get_neighborhood(cell.row, cell.col, grid)
-        for n in neighbors:
-            burn(n, grid, timestep)
-
-def update_state(cell: Cell, grid: Grid):
     match(cell.type):
         case CellType.FIRE:
             if cell.burn_progress01 >= 0.7:
                 cell.set_type(CellType.CINDER)
+            else:
+                propagate(cell, grid)
         case CellType.CINDER:
             if cell.burn_progress01 >= 1.0:
                 cell.set_type(CellType.ASH)
-                grid.num_burning_cells -= 1
         case _:
             pass
+
+    if cell.type == CellType.FIRE or cell.type == CellType.CINDER:
+        cell.fuel01 -= 0.1 * timestep
+        if cell.fuel01 < 0.0:
+            cell.fuel01 = 0.0
+        cell.burn_progress01 = 1.0 - cell.fuel01 / cell.initial_fuel01
+
+
+
+def propagate(cell: Cell, grid: Grid):
+        neighbors = VonNeumannNeighborhood.get_neighborhood(cell.row, cell.col, grid)
+        for n in neighbors:
+            if n.fuel01 > 0.0 and n.type != CellType.FIRE:
+                n.set_type(CellType.FIRE)

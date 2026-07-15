@@ -75,13 +75,13 @@ class ConsoleRenderer:
 
         return grid
 
-    def refresh_grid(self, list2d: list[list[int]], appstate: AppState):
-        self.live.update(self._create_console_grid(list2d))
-        appstate.mark_updated()
-
     def render_grid(self, list2d: list[list[int]], appstate: AppState):
         self.live = Live(self._create_console_grid(list2d), auto_refresh=True)
         self.live.start()
+        
+    def refresh_grid(self, list2d: list[list[int]], appstate: AppState):
+        self.live.update(self._create_console_grid(list2d))
+        appstate.mark_updated()
 
     def finalize_rendering(self):
         self.live.stop()
