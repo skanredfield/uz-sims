@@ -6,12 +6,16 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src", "core"))
 import threading
 import queue
 
+from src.core.config import Config
 from src.core.clock import Clock
 from src.core.engine import init_grid, sim_advance_state, gather_updateable
 from gui.console_gui import ConsoleRenderer
 
+config = Config()
 grid = init_grid()
 renderer = ConsoleRenderer()
+
+config.is_deterministic = False
 
 render_clock = Clock()
 state_queue = queue.Queue(maxsize=5)
@@ -25,7 +29,7 @@ def run_logic_loop(is_running: threading.Event):
     while is_running.is_set():
         dt = logic_clock.tick(0.5)
         gather_updateable(grid)
-        if not sim_advance_state(grid, dt):
+        if not sim_advance_state(grid, config, dt):
             is_running.clear()
         state_queue.put(grid.tolist2d())
 

@@ -9,11 +9,11 @@ class ConsoleRenderer:
 
     mapping = {
         1: (" ", "default", "on black"),
-        2: ("O", "bold white", "on bright_black"),     # e.g., Ocean / Water
-        3: ("T", "bold white", "on brown"), # e.g., Tree / Forest
-        4: ("F", "bold white", "on red"), # e.g., Fire / Hazard
-        5: ("C", "bold white", "on dark_grey"),  # e.g., Coin / Treasure
-        6: ("A", "bold white", "on light_grey"),    # e.g., Agent / Player
+        2: ("O", "bold white", "on bright_white"),
+        3: ("T", "bold white", "on green"),
+        4: ("F", "bold white", "on red"),
+        5: ("C", "bold white", "on bright_black"),
+        6: ("A", "bold white", "on white"),
     }
 
     def __init__(self):
