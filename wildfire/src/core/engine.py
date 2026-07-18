@@ -2,7 +2,6 @@ from grid import Grid
 from grid_generator import GridGenerator
 from cell import CellType
 from rules import burn
-from appstate import AppState
 
 
 def init_grid() -> Grid:
@@ -26,7 +25,7 @@ def gather_updateable(grid: Grid):
             if cell.type == CellType.FIRE or cell.type == CellType.CINDER:
                 grid.enqueue_for_update(cell)
 
-def sim_advance_state(grid: Grid, appstate: AppState, dt: float) -> bool:
+def sim_advance_state(grid: Grid, dt: float) -> bool:
     is_any_fuel_left = False
     while not grid.are_updates_finished():
         cell = grid.get_cell_for_update()

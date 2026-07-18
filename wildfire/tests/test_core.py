@@ -4,7 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src", "core"))
 
 from src.core.grid_generator import GridGenerator
-from gui.ascii_gui import render_grid
+from wildfire.gui.console_gui import render_grid
 
 
 grid = GridGenerator.generate_empty(10, 10)

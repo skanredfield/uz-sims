@@ -3,3 +3,4 @@
 .temp
 output.txt
 .DS_Store
+*.dat
