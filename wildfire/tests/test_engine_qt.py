@@ -1,21 +1,24 @@
-import sys
 import os
+import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src", "core"))
 
-import threading
 import queue
+import threading
 
-from src.core.config import Config
+from gui.qt_gui import QTRenderer
 from src.core.clock import Clock
-from src.core.engine import init_grid, sim_advance_state, gather_updateable
-from gui.console_gui import ConsoleRenderer
+from src.core.config import Config
+from src.core.engine import gather_updateable, init_grid, sim_advance_state
 
 config = Config()
 grid = init_grid()
-renderer = ConsoleRenderer()
+renderer = QTRenderer()
 
 config.is_deterministic = False
+
+config.save_config()
 
 render_clock = Clock()
 state_queue = queue.Queue(maxsize=5)

@@ -1,0 +1,35 @@
+[project]
+name = "uz-sims"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Skandar Redfield", email = "skan.redfield@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "build>=1.6.0",
+    "matplotlib>=3.11.1",
+    "pyproject-hooks>=1.2.0",
+    "pyside6",
+    "pyside6-addons",
+    "pyside6-essentials",
+    "rich>=15.0.0",
+    "setuptools>=84.0.0",
+    "shiboken6",
+    "shiboken6-generator",
+]
+
+[project.scripts]
+uz-sims = "uz_sims:main"
+
+[build-system]
+requires = ["uv_build>=0.12.6,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+pyside6 = { path = "pyside-setup/dist/pyside6-6.11.0a1-cp310-abi3-macosx_14_0_universal2.whl" }
+pyside6-addons = { path = "pyside-setup/dist/pyside6_addons-6.11.0a1-cp310-abi3-macosx_14_0_universal2.whl" }
+pyside6-essentials = { path = "pyside-setup/dist/pyside6_essentials-6.11.0a1-cp310-abi3-macosx_14_0_universal2.whl" }
+shiboken6 = { path = "pyside-setup/dist/shiboken6-6.11.0a1-cp310-abi3-macosx_14_0_universal2.whl" }
+shiboken6-generator = { path = "pyside-setup/dist/shiboken6_generator-6.11.0a1-cp310-abi3-macosx_14_0_universal2.whl" }

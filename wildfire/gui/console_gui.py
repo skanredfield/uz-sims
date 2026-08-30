@@ -1,13 +1,14 @@
-from rich import print
-from rich.table import Table
-from rich.text import Text
+from typing import ClassVar
+
 from rich import box
 from rich.live import Live
+from rich.table import Table
+from rich.text import Text
 
 
 class ConsoleRenderer:
 
-    mapping = {
+    mapping: ClassVar[dict[int, tuple[str, str, str]]] = {
         1: (" ", "default", "on black"),
         2: ("O", "bold white", "on bright_white"),
         3: ("T", "bold white", "on green"),

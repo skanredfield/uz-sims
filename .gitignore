@@ -1,6 +1,11 @@
-.venv
+.venv*
 *.pyc
 .temp
 output.txt
 .DS_Store
 *.dat
+uv.lock
+pyside-setup/
+*.wcfg
+
+requirements.txt

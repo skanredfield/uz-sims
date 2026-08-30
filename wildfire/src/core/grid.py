@@ -36,7 +36,7 @@ class Grid:
             row += 1
             col -= self.num_cols
         if row > self.num_rows:
-            raise("Trying to exceed the grid size.")
+            raise(Exception("Trying to exceed the grid size."))
         cell = Cell(type, row, col)
         if type == CellType.EMPTY:
             cell.fuel01 = 0.0
