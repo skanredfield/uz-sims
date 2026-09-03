@@ -30,7 +30,7 @@ def run_logic_loop(is_running: threading.Event):
     logic_clock = Clock()
     
     while is_running.is_set():
-        dt = logic_clock.tick(0.5)
+        dt = logic_clock.tick(2.5)
         gather_updateable(grid)
         if not sim_advance_state(grid, config, dt):
             is_running.clear()

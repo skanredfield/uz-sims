@@ -1,46 +1,57 @@
 import sys
 from typing import ClassVar
 
-from PySide6.QtGui import QColor, QPalette
-from PySide6.QtWidgets import QApplication, QGridLayout, QMainWindow, QWidget
+from PySide6.QtWidgets import (
+    QApplication,
+    QGridLayout,
+    QHBoxLayout,
+    QMainWindow,
+    QPushButton,
+    QWidget,
+)
 
 
-class _ColorBlock(QWidget):
-    def __init__(self, color_name_or_hex):
+class _ColorButton(QPushButton):
+
+    def __init__(self, text: str, fg_color_name_or_hex: str, bg_color_name_or_hex: str):
         super().__init__()
-        
-        self.setAutoFillBackground(True)
-        
-        palette = self.palette()
-        palette.setColor(QPalette.Window, QColor(color_name_or_hex))
-        self.setPalette(palette)
 
+        self.setFlat(True)
+        self.setMinimumSize(50, 50)
+
+        self.setText(text)
+
+        # note that "border: none" was required for the style to work correctly
+        self.setStyleSheet(_ColorButton.getStyleString(fg_color_name_or_hex, bg_color_name_or_hex))
+        self.show()
+
+    @classmethod
+    def getStyleString(cls, fg_color_name_or_hex: str, bg_color_name_or_hex: str) -> str:
+        return f"""
+            QPushButton:!pressed {{
+                color: {fg_color_name_or_hex}; 
+                background-color: {bg_color_name_or_hex};
+                border: none;
+            }}
+            QPushButton:pressed {{
+                color: {fg_color_name_or_hex}; 
+                background-color: {bg_color_name_or_hex};
+                border: none;
+            }}
+        """
+
+
+        
 class _MainWindow(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, grid: QGridLayout):
         super().__init__()
 
-        self.setWindowTitle("My Grid App")
+        self.setWindowTitle("Wildfire")
         self.resize(400, 400)
 
-        layout = QGridLayout()
-
-        for x in range(10):
-            for y in range(10):
-                layout.addWidget(_ColorBlock("grey"), x, y)
-
-        palette = layout.itemAtPosition(5, 5).widget().palette()
-        palette.setColor(QPalette.Window, QColor("tomato"))
-        layout.itemAtPosition(5, 5).widget().setPalette(palette)
-
-        # grid.set_cell_type(4, 4, CellType.FOREST)
-        # grid.set_cell_type(4, 5, CellType.FOREST)
-        # grid.set_cell_type(4, 6, CellType.FOREST)
-        # grid.set_cell_type(5, 4, CellType.FOREST)
-        # grid.set_cell_type(5, 6, CellType.FOREST)
-        # grid.set_cell_type(6, 4, CellType.FOREST)
-        # grid.set_cell_type(6, 5, CellType.FOREST)
-        # grid.set_cell_type(6, 6, CellType.FOREST)
+        layout = QHBoxLayout()
+        layout.addLayout(grid)
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -50,26 +61,46 @@ class _MainWindow(QMainWindow):
 class QTRenderer:
 
     mapping: ClassVar[dict[int, tuple[str, str, str]]] = {
-        1: (" ", "default", "on black"),
-        2: ("O", "bold white", "on bright_white"),
-        3: ("T", "bold white", "on green"),
-        4: ("F", "bold white", "on red"),
-        5: ("C", "bold white", "on bright_black"),
-        6: ("A", "bold white", "on white"),
+        1: (" ", "white", "black"),
+        2: ("O", "white", "snow"),
+        3: ("T", "white", "green"),
+        4: ("F", "white", "red"),
+        5: ("C", "white", "darkgray"),
+        6: ("A", "white", "gray"),
     }
 
+    def __init__(self):
+        self.grid = QGridLayout()
+        self.grid.setSpacing(5)
+        self.initialized = False
+
+    def _create_console_grid(self, list2d: list[list[int]]) -> QGridLayout:
+        for row in range(len(list2d)):
+            for col in range(len(list2d[row])):
+                char, fg, bg = QTRenderer.mapping.get(list2d[row][col], ("-", "white", "black"))
+                if not self.initialized:
+                    self.grid.addWidget(_ColorButton(char, fg, bg), row, col)
+                else:
+                    widget = self.grid.itemAtPosition(row, col).widget()
+                    widget.setText(char)
+                    widget.setStyleSheet(_ColorButton.getStyleString(fg, bg))
+
+        self.initialized = True
+
+        return self.grid
 
     def render_grid(self, list2d: list[list[int]]):
         app = QApplication.instance()
         if not app:
             app = QApplication(sys.argv)
 
-        window = _MainWindow()
+        grid = self._create_console_grid(list2d)
+        window = _MainWindow(grid)
         window.show()
         sys.exit(app.exec())
         
     def refresh_grid(self, list2d: list[list[int]]):
-        pass
+        self._create_console_grid(list2d)
 
     def finalize_rendering(self):
         pass
