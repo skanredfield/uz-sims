@@ -1,5 +1,5 @@
-from grid import Grid
 from cell import CellType
+from grid import Grid
 
 
 class GridGenerator:

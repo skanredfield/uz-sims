@@ -1,12 +1,16 @@
 import sys
 from typing import ClassVar
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
     QGridLayout,
     QHBoxLayout,
+    QLabel,
     QMainWindow,
     QPushButton,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -50,12 +54,45 @@ class _MainWindow(QMainWindow):
         self.setWindowTitle("Wildfire")
         self.resize(400, 400)
 
-        layout = QHBoxLayout()
-        layout.addLayout(grid)
+        layout = QVBoxLayout()
+
+        topPanel = QHBoxLayout()
+        topPanel.addWidget(QLabel("Forest Fire Simulation"))
+        topPanel.addWidget(QLabel("Barrier budget"))
+        topPanel.addWidget(QLabel("Trees saved"))
+
+        layout.addLayout(topPanel)
+
+        centralPanel = QHBoxLayout()
+        rightPanel = QVBoxLayout()
+        rightPanel.setAlignment(Qt.AlignmentFlag.AlignTop)
+        centralPanel.addLayout(grid)
+        centralPanel.addLayout(rightPanel)
+        layout.addLayout(centralPanel)
+
+        rightPanel.addWidget(QPushButton("Assign smth..."))
+
+        bottomPanel = QHBoxLayout()
+
+        combobox = QComboBox()
+        combobox.addItems(["One", "Two", "Three"])
+        bottomPanel.addWidget(combobox)
+
+        bottomPanel.addWidget(QPushButton("Start Simulation"))
+        bottomPanel.addWidget(QPushButton("Stop"))
+        layout.addLayout(bottomPanel)
 
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
+
+    def closeEvent(self, event):
+        # TODO
+        # if self.worker_thread.isRunning():
+        #     self.worker_thread.quit() 
+        #     self.worker_thread.wait() 
+            
+        event.accept()
 
 
 class QTRenderer:

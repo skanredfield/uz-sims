@@ -54,7 +54,7 @@ class QTEngineTest:
         self.grid = init_grid()
         self.renderer = QTRenderer()
 
-        self.config.is_deterministic = False
+        self.config.is_deterministic = True
         self.config.save_config()
 
         self.sem = QSemaphore(1)

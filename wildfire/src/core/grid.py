@@ -1,6 +1,6 @@
-from typing import List
-from cell import Cell, CellType
 from collections import deque
+
+from cell import Cell, CellType
 
 
 class Grid:
@@ -9,9 +9,9 @@ class Grid:
         self.num_rows = num_rows
         self.num_cols = num_cols
         self.num_burning_cells = 0
-        self.fire_origins: List[Cell] = []
-        self._cells: List[Cell] = []
-        self._update_queue: List[Cell] = deque()
+        self.fire_origins: list[Cell] = []
+        self._cells: list[Cell] = []
+        self._update_queue: list[Cell] = deque()
 
     def get_cell(self, row: int, col: int) -> Cell | None:
         if row >= 0 and col >= 0 and row < self.num_rows and col < self.num_cols:
