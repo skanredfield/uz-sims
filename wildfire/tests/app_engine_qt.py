@@ -10,7 +10,7 @@ from gui.qt_gui import QTRenderer
 from PySide6.QtCore import QSemaphore, QThread, Signal, Slot
 from src.core.clock import Clock
 from src.core.config import Config
-from src.core.engine import gather_updateable, init_grid, sim_advance_state
+from src.core.engine import gather_updateable, init_small_test_grid, init_grid, sim_advance_state
 from src.core.grid import Grid
 
 
@@ -51,7 +51,8 @@ class QTEngineTest:
 
     def __init__(self):
         self.config = Config()
-        self.grid = init_grid()
+        # self.grid = init_small_test_grid()
+        self.grid = init_grid(10, 10)
         self.renderer = QTRenderer()
 
         self.config.is_deterministic = True
@@ -75,6 +76,7 @@ class QTEngineTest:
             self.renderer.refresh_grid(self.grid.tolist2d())
         else:
             # TODO: finalize and quit
+            # shout a notifier that will allow an update in the UI
             pass
 
 

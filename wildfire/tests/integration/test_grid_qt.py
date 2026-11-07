@@ -7,12 +7,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "gui"))
 
 
 from gui.qt_gui import QTRenderer
-from src.core.engine import init_grid
+from src.core.engine import init_small_test_grid
 
 
 class TestGridQt:
 
     def test_grid(self):
-        grid = init_grid()
+        grid = init_small_test_grid()
         renderer = QTRenderer()
         renderer.render_grid(grid.tolist2d())

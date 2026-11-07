@@ -10,10 +10,11 @@ import threading
 from gui.console_gui import ConsoleRenderer
 from src.core.clock import Clock
 from src.core.config import Config
-from src.core.engine import gather_updateable, init_grid, sim_advance_state
+from src.core.engine import gather_updateable, init_small_test_grid, init_grid, sim_advance_state
 
 config = Config()
-grid = init_grid()
+# grid = init_small_test_grid()
+grid = init_grid(20, 20)
 renderer = ConsoleRenderer()
 
 config.is_deterministic = False

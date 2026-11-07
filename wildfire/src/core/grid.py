@@ -56,6 +56,8 @@ class Grid:
         return len(self._update_queue) <= 0
 
     #TODO: perhaps move to interfaces.py
+    # also note that this must not be used in update calls
+    # only modify the cells enqueued for update
     def tolist2d(self) -> list[list[int]]:
         list2d = []
         for i in range(self.num_rows):

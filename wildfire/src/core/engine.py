@@ -5,7 +5,9 @@ from rules import burn
 from config import Config
 
 
-def init_grid() -> Grid:
+#region TEST_CODE
+
+def init_small_test_grid() -> Grid:
     grid = GridGenerator.generate_empty(10, 10)
     grid.set_cell_type(5, 5, CellType.FIRE)
 
@@ -19,6 +21,14 @@ def init_grid() -> Grid:
     grid.set_cell_type(6, 6, CellType.FOREST)
 
     return grid
+
+#endregion
+
+def init_grid(width: int, height: int) -> Grid:
+    grid = GridGenerator.generate_empty(width, height)
+
+    return grid
+
 
 def gather_updateable(grid: Grid):
     for cell in grid._cells:
